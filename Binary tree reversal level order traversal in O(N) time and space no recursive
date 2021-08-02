@@ -1,0 +1,19 @@
+vector<int> reverseLevelOrder(Node *root)
+{
+    vector<int> res;
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty())
+    {
+        Node* first=q.front();
+        if(first->right)
+        q.push(first->right);
+        if(first->left)
+        q.push(first->left);
+        q.pop();
+        res.push_back(first->data);
+    }
+    reverse(res.begin(),res.end());
+    return res;
+    // code here
+}
