@@ -1,0 +1,23 @@
+class Solution {
+public:
+    pair<int,int> Diameter(TreeNode* root)
+    {
+        if(root==NULL)
+            return make_pair(0,0);
+        pair<int,int> left=Diameter(root->left);
+        pair<int,int> right=Diameter(root->right);
+        int internal_path=max(left.second,right.second);
+        
+        if(left.first+right.first+1>internal_path)
+            internal_path=left.first+right.first+1;
+        return make_pair(max(left.first,right.first)+1,internal_path);
+    }
+    int diameterOfBinaryTree(TreeNode* root)
+    {
+        if(root==NULL)
+            return 0;
+        pair<int,int> result=Diameter(root);
+        return max(result.first,result.second)-1;
+        
+    }
+};
