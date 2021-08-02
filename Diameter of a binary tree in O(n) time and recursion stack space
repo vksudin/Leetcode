@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int height(TreeNode* root)
+    {
+        if(root==NULL)
+            return 0;
+        return max(height(root->left),height(root->right))+1;
+    }
+    
+    void Diameter(TreeNode* root,int &maximum)
+    {
+        if(root==NULL)
+            return;
+        int x=height(root->left);
+        int y=height(root->right);
+        x=x+y;
+        maximum=max(maximum,x);
+        Diameter(root->left,maximum);
+        Diameter(root->right,maximum);
+    }
+    
+    int diameterOfBinaryTree(TreeNode* root)
+    {
+        int maximum=0;
+        Diameter(root,maximum);
+        return maximum;
+    }
+};
