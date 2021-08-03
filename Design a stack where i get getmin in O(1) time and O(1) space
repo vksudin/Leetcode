@@ -1,0 +1,141 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int size=100;
+int minimum=INT_MAX;
+bool isFull(stack<int>& s1)
+{
+	return (s1.size()==100);
+}
+bool isEmpty(stack<int>& s1)
+{
+	return (s1.size()==0);
+}
+void push(stack<int>& s1,int x)
+{
+	if(isFull(s1)==true)
+	{
+		cout<<"stack is full"<<"\n";
+	}
+	else if(isEmpty(s1)==true)
+	{
+		minimum=x;
+		s1.push(x);
+	}
+	else
+	{
+		int y=x;
+		if(minimum>y)
+		{
+			y=2*x-minimum;
+			minimum=x;
+		}
+		s1.push(y);
+	}
+}
+int pop(stack<int>& s1)
+{
+	if(isEmpty(s1)==true)
+	{
+		//cout<<"Stack is empty"<<"\n";
+		return INT_MIN;
+	}
+	else
+	{
+		int r=s1.top();
+		//cout<<r<<"\n";
+		int x=r;
+		if(r>=minimum)
+		{
+			s1.pop();
+		}
+		else
+		{
+			int y=2*minimum-r;
+			s1.pop();
+			minimum=y;
+			
+			r=(minimum+x)/2;
+		}
+		return r;
+	}
+//	return r;
+}
+int getMin(stack<int>& s1)
+{
+	if(isEmpty(s1)==true)
+	{
+		return INT_MIN;
+	}
+	else
+	return minimum;
+}
+int main()
+{
+	stack<int> s1;
+	int x;
+	//push pop isEmpty isFull getMin
+	int n;
+	cout<<"Enter the total number of operation"<<"\n";
+	cin>>n;
+	int type;
+	int i;
+	
+	for(i=0;i<n;i++)
+	{
+		cout<<"Enter the type of operation"<<"\n";
+		cin>>type;
+		//1-push 2-pop 3-getMin 4-isFull 5-isEmpty 
+		if(type==1)
+		{
+			cout<<"Enter the element"<<"\n";
+			cin>>x;
+			push(s1,x);
+		}
+		else if(type==2)
+		{
+			int element=pop(s1);
+			if(element==INT_MIN)
+			{
+				cout<<"Stack is empty"<<"\n";
+			}
+			else
+			cout<<"The popping element is "<<element<<"\n";
+		}
+		else if(type==3)
+		{
+			int minimum=getMin(s1);
+			if(minimum==INT_MIN)
+			{
+				cout<<"Stack is empty"<<"\n";
+			}
+			else
+			{
+				cout<<"The minimum element is "<<minimum<<"\n";
+			}
+			
+		}
+		else if(type==4)
+		{
+			if(isFull(s1)==true)
+			{
+				cout<<"Stack is full"<<"\n";
+			}
+			else
+			{
+				cout<<"Stack is not full"<<"\n";
+			}
+		}
+		else
+		{
+			if(isEmpty(s1)==true)
+			{
+				cout<<"Stack is empty"<<"\n";
+			}
+			else
+			{
+				cout<<"Stack is not empty"<<"\n";
+			}
+		}
+	}
+}
