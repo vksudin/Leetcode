@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void partition(int arr[],int left,int right,int bit)
+{
+    if(bit>31 || left>right)
+    {
+        return;
+    }
+    int bitValue=1<<bit;
+    int l=left,r=right;
+    while(l<=r)
+    {
+        while(l<=r && (arr[l] & bitValue)==0)
+        l++;
+        while(l<=r && (arr[r] & bitValue)!=0)
+        r--;
+        if(l<=r)
+        {
+            int temp=arr[l];
+            arr[l]=arr[r];
+            arr[r]=temp;
+            l++;
+            r--;
+        }
+    }
+    partition(arr,left,r,bit+1);
+    partition(arr,l,right,bit+1);
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    int arr[n],i;
+    for(i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    partition(arr,0,n-1,0);
+    vector<int> res;
+    for(i=1;i<n;i++)
+    {
+        if(arr[i]==arr[i-1])
+        {
+            res.push_back(arr[i]);
+        }
+    }
+    for(i=0;i<res.size();i++)
+    {
+        cout<<res[i]<<" ";
+    }
+}
