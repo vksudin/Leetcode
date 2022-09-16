@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool check(map<char,int>& m,int k)
+{
+    for(auto it:m)
+    {
+        if(it.second!=k && it.second!=0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main()
+{
+    string s;
+    cin>>s;
+    int k,i,j,count=0;
+    cin>>k;
+    set<char> st(s.begin(),s.end());
+    int n=s.size();
+    int distinctChar=st.size();
+    for(i=1;i<=distinctChar;i++)
+    {
+        int length=i*k;
+        int start=0;
+        map<char,int> m;
+        for(j=start;j<=min(n-1,start+k-1);j++)
+        {
+            m[s[j]]++;
+        }
+        int end=start+k-1;
+        while(end<s.size()-1)
+        {
+            if(check(m,k))
+            {
+                count++;
+            }
+            m[s[start]]--;
+            start++;
+            end++;
+            if(length<s.size())
+            {
+                m[s[end]]++;
+            }
+        }
+    }
+    cout<<count<<"\n";
+}
