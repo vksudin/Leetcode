@@ -1,0 +1,58 @@
+//There is an m x n rectangular 2d array called board which has rows and columns containing '0' or '+' only.
+Rows and columns start at index 0
+The '0' value means it is a passable path whereas the '+' value is a wall that cannot be crossed.
+You are a snake that can move in four directions- up, down, left, right. Entering and exiting the board must only happen at a '0' value. You can enter the board from any four sides/borders
+After entering the board, there can be multiple exits. Find the nearest exit//
+
+Code:
+#include<bits/stdc++.h>
+using namespace std;
+int dy[4]={1,0,-1,0};
+int dx[4]={0,1,0,-1};
+int x,y;
+void dfs(int row,int col,int step,vector<vector<char>>& mat,vector<vector<int>>& vis,int& minDist,int& fRow,int& fCol)
+{
+    vis[row][col]=1;
+    if(row==mat.size()-1 || col==mat[0].size()-1 && (row!=x || col!=y))
+    {
+        if(minDist>step)
+        {
+            fRow=row;
+            fCol=col;
+        }
+        return;
+    }
+    for(int i=0;i<4;i++)
+    {
+        int nRow=row+dx[i];
+        int nCol=col+dy[i];
+        if(nRow<0 || nRow>=mat.size() || nCol<0 || nCol>=mat[0].size() || vis[nRow][nCol]==1 || mat[nRow][nCol]=='+')
+        continue;
+        dfs(nRow,nCol,step+1,mat,vis,minDist,fRow,fCol);
+    }
+    vis[row][col]=0;
+}
+
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    vector<vector<char>> mat(n,vector<char>(m));
+    vector<vector<int>> vis(n,vector<int>(m,0));
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            cin>>mat[i][j];
+        }
+    }
+    int minDist=INT_MAX,total=0,fRow=-1,fCol=-1;
+    
+    
+    cin>>x>>y;
+   // int fRow=-1,fCol=-1;
+    dfs(x,y,0,mat,vis,minDist,fRow,fCol);
+    cout<<fRow<<" "<<fCol<<"\n";
+   
+}
